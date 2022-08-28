@@ -6,11 +6,11 @@ To develop a neural network regression model for the given dataset.
 
 ## THEORY
 
-Explain the problem statement
+Training the algorithm to predict the price of house with square feet values.
 
 ## Neural Network Model
+![187078981-2aafe51a-eaff-4dd6-a902-e6f6bc567333](https://user-images.githubusercontent.com/75235477/187083993-a459f30e-b606-44bf-9d79-9f474195ad32.png)
 
-Include the neural network model diagram.
 
 ## DESIGN STEPS
 
@@ -43,25 +43,63 @@ Plot the performance plot
 Evaluate the model with the testing data.
 
 ## PROGRAM
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
 
-Include your code here
+df=pd.read_csv("data2.csv")
+df.head()
+x=df[['input']].values
+x
+y=df[['output']].values
+y
+xtrain,xtest,ytrain,ytest=train_test_split(x,y,test_size=0.3,random_state=40)
+
+scaler=MinMaxScaler()
+scaler.fit(xtrain)
+scaler.fit(xtest)
+xtrain1=scaler.transform(xtrain)
+xtest1=scaler.transform(xtest)
+
+model=Sequential([
+    Dense(6,activation='relu'),
+    Dense(7,activation='relu'),
+    Dense(1)
+])
+model.compile(optimizer='rmsprop',loss='mse')
+model.fit(xtrain1,ytrain,epochs=4000)
+lossmodel=pd.DataFrame(model.history.history)
+lossmodel.plot()
+model.evaluate(xtest1,ytest)
+
+xn1=[[56]]
+xn11=scaler.transform(xn1)
+model.predict(xn11)
+```
 
 ## Dataset Information
+![2022-08-28](https://user-images.githubusercontent.com/75235477/187083773-f50a5abe-2abc-4204-b5c1-1d0cd1e9775c.png)
 
-Include screenshot of the dataset
 
 ## OUTPUT
 
 ### Training Loss Vs Iteration Plot
+![2022-08-28 (3)](https://user-images.githubusercontent.com/75235477/187083896-b57d1a9e-e9f5-4204-9160-21bb24c81d9e.png)
 
-Include your plot here
+
 
 ### Test Data Root Mean Squared Error
 
-Find the test data root mean squared error
+![1dl](https://user-images.githubusercontent.com/75235477/187083843-90d823ba-148e-49a8-a65a-57dd3b11f4b4.png)
+
 
 ### New Sample Data Prediction
 
-Include your sample input and output here
+![2022-08-28 (2)](https://user-images.githubusercontent.com/75235477/187083819-6a184b26-faec-4266-a8ef-ca188167e10e.png)
+
 
 ## RESULT
+Thus,the neural network regression model for the given dataset is developed.
